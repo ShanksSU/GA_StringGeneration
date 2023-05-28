@@ -1,19 +1,17 @@
-#pragma once
 #ifndef GA_H
 #define GA_H
 #include <iostream>
 #include <string>
 #include <vector>
 #include <random>
-using namespace std;
 
 namespace Random {
-    extern mt19937 mt;
+    extern std::mt19937 mt;
     template<typename T>
-    T getRandom(T min, T max, typename enable_if<is_integral<T>::value >::type* = nullptr);
+    T getRandom(T min, T max, typename std::enable_if<std::is_integral<T>::value >::type* = nullptr);
 
     template<typename T>
-    T getRandom(T min, T max, typename enable_if<is_floating_point<T>::value >::type* = nullptr);
+    T getRandom(T min, T max, typename std::enable_if<std::is_floating_point<T>::value >::type* = nullptr);
 
     template<typename Container, typename UnaryFunction>
     size_t rouletteWheel(double total, const Container& container, UnaryFunction&& func);
@@ -25,38 +23,35 @@ namespace Random {
 class GA {
 private:
     struct DNA {
-        string dna = "";
-        double fitness = 0.0;
+        std::string dna = "";
+        double fitness = 0.0;   //é©æ‡‰åº¦
     };
 
 public:
-    GA(const string& target);
+    GA(const std::string& target);
     void run();
-    string best() const;
+    std::string best() const;
 
 private:
-    void initGeneration();  //ªì©l¤ÆºØ¸s
-    void nextGeneration();  //¤U¤@¥NºØ¸s
+    void initGeneration();  //åˆå§‹åŒ–ç¨®ç¾¤
+    void nextGeneration();  //ä¸‹ä¸€ä»£ç¨®ç¾¤
     void showGeneration();
     DNA crossOver();
     void mutate(DNA& child);
 
-    double calcFitness(const string& s) const;
+    double calcFitness(const std::string& s) const;
     DNA getBest(const DNA& currentBest, const DNA& other) const;
 
 private:
-    string mTarget;
-    vector<DNA> mPopulation;
+    std::string mTarget;
+    std::vector<DNA> mPopulation;
     DNA mBest;
     int mTimer;
     int generations;
 
-    static constexpr size_t MAX_POPULATION = 2000;  //ºØ¸s¤j¤p
-    static constexpr double CROSSOVER_RATE = 0.9;   //¥æ¤e·§²v
-    static constexpr double MUTATION_RATE = 0.001;  //ÅÜ²§·§²v
+    static constexpr size_t MAX_POPULATION = 2000;  //ç¨®ç¾¤å¤§å°
+    static constexpr double CROSSOVER_RATE = 0.9;   //äº¤å‰æ¦‚ç‡
+    static constexpr double MUTATION_RATE = 0.001;  //è®Šç•°æ¦‚ç‡
 };
-
-string entry(string targetStr);
-
+std::string entry(std::string targetStr);
 #endif
-
